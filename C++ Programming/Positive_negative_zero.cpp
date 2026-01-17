@@ -6,7 +6,7 @@ int main() {
     if(n>0) {
         cout<<"Positive"<<endl;
       }
-        else if(n>=10) {
+        else if(n<0) {
             cout<<"Negative"<<endl;
        }
         else  {
