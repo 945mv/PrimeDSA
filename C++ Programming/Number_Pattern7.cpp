@@ -17,10 +17,9 @@ int main() {
             if (j%2==0) {
                 cout<<"* ";
             } else {
-                cout<<i<<"  ";
+                cout<<i<<"   ";
             }
-            
-}
+        }
 cout<<endl;
         }
         return 0;
