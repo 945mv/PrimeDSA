@@ -1,17 +1,14 @@
-// C++ code to demonstrate star pattern
 #include <iostream>
 using namespace std;
-
-// Driver Code
-int main()
-{
+int main() {
     int n;
     cout<<"Enter the value of n: ";
     cin>>n;
-    for (int i = n; i > 0; i--) {
-        for (int j = 1; j <= i; j++) 
-        { cout<<"* ";
-        }  cout << endl;
-    } 
+    for (int i=0;i<n;i++) {
+        for (int j=0;j<n;j++) {
+            cout<<"*";
+        }
+        cout<<endl;
+    }
     return 0;
 }
