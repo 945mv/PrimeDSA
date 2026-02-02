@@ -1,8 +1,8 @@
 #include <iostream>
 using namespace std;
 int main() {
-    int a=4839483948;    //int
-    long b=78676834343242;  //long
+    int a=48394;    //int
+    long b=786768343;  //long
     long long c=433049808438745348; //long long
     string d="firjfrfovdfvdfefreffrvsferferfefef"; //string
     float e=3.5434343;   //float
