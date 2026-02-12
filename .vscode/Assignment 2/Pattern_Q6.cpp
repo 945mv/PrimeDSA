@@ -11,9 +11,13 @@ int main() {
             cout<<"  ";
         }
         
-        //stars
-        for (int j=0;j<2*i+1;j++) {
-            cout<<"* ";
+        //Increasing Numbers
+        for (int j=i+1;j<=2*i+1;j++) {
+            cout<<j<<" ";
+        }
+        //Decresing Part
+        for (int j=2*i;j>=i+1;j--) {
+            cout<<j<<" ";
         }
         cout<<endl;
     }
@@ -23,9 +27,13 @@ int main() {
         for (int j=0;j<n/2-i;j++) {
             cout<<"  ";
         }
-        //stars
-        for (int j=0;j<(2*i+1);j++) {
-            cout<<"* ";
+        //Increasing Part
+        for (int j=i+1;j<=2*i+1;j++) {
+            cout<<j<<" ";
+        }
+        //Decresing Part
+        for (int j=2*i;j>=i+1;j--) {
+            cout<<j<<" ";
         }
         cout<<endl;
     }
