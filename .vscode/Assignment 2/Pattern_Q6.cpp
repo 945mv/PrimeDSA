@@ -1,6 +1,11 @@
 #include <iostream>
 using namespace std;
 int main() {
+    // 1 
+ // 2 3 2
+//3 4 5 4 3
+  //2 3 2
+    //1
     int n;
     cout<<"Enter the value of n: ";
     cin>>n;
