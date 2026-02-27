@@ -14,7 +14,7 @@ int reverse (int x) {
     return ans;
 }
 int main() {
-    int n=982;
+    int n=349;
     cout<<reverse(n)<<endl;
     return 0;
 }
