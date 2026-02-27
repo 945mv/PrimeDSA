@@ -14,8 +14,8 @@ int removeElement(vector<int>&nums,int val) {
 }
 int main() 
 {
-    vector <int>nums={1,2,3,4,5,6,6,6,7};
-int val=3;
+    vector <int>nums={0,1,2,2,3,0,4,2};
+int val=2;
 cout<<removeElement(nums,val)<<endl;
 return 0;
     }
