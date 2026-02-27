@@ -12,7 +12,7 @@ int removeDuplicates(vector<int>&nums) {
     return unique+1;
 }
 int main() {
-    vector<int> nums={1,1,2,2,2,2,2,3,3,3,4,4,};
+    vector<int> nums={1,1,2,2,2,2,2,3,3,3,4,4,5,5,6};
     cout<<removeDuplicates(nums)<<endl;
     return 0;
 }
