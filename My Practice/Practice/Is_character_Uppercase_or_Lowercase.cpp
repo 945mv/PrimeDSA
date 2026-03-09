@@ -12,7 +12,7 @@ int main() {
         cout<<"Character "<<ch<<" is Lowercase!"<<endl;
     }
     //By Alphabets
-    if (ch>='a' and ch<='z') {
+    if (ch>='a' and ch<='z') {  //Implicit Conversion (ch-->int)
         cout<<"Character "<<ch<<" is Lowercase!"<<endl;  
     }
     else {
