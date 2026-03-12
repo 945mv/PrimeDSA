@@ -9,8 +9,9 @@ int factN(int n) { //parameters
     return fact;
 }
 int main() {
-    cout<<"The factorial of N is: "<<factN(3)<<endl;   //argument
-    cout<<"The factorial of N is: "<<factN(4)<<endl;
-    cout<<"The factorial of N is: "<<factN(5)<<endl;
+    int n;
+    cout<<"Enter the value of n: ";
+    cin>>n;
+    cout<<"The factorial of N is: "<<factN(n)<<endl;   //argument
     return 0;
 }
