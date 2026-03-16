@@ -1,5 +1,5 @@
 #include<iostream>
-#include<climits> //for mathematical expression
+#include<climits> //for INT_MIN and INT_MAX expression
 using namespace std;
 int main() {
     int n;
