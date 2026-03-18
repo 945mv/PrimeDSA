@@ -2,16 +2,18 @@
 using namespace std;
 int main() {
         int n;
+        cout<<"Enter the value of n: ";
         cin>>n;
         int ans=0;
         int l=1;
         int h=n;
-        while (l<=n) {
+        while (l<=h) {
                 int m=l+(h-l)/2;
-                if (m*m==n) {
-                        return m;
+                if (m==n / m) {
+                        ans = m;
+                        break;
                 }
-                else if (m*m<n) {
+                else if (m<n / m) {
                         ans=m;
                         l=m+1;
                 }
@@ -19,5 +21,6 @@ int main() {
                         h=m-1;
                 }
         }
-        return ans;
+        cout << "Hence, the Square root of "<<n<<" is "<< ans;
+        return 0;
 }
