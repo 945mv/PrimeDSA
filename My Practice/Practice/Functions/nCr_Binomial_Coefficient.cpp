@@ -15,7 +15,9 @@ int nCr(int n,int r) {
     return fact_n/(fact_r*fact_nmr);
 }
 int main() {
-    int n=8,r=2;
+    int n,r;
+    cout<<"Enter the value of n and r: ";
+    cin>>n>>r;
     cout<<"Binomial coefficient of nCr : "<<nCr(n,r)<<endl;
     return 0;
 }
