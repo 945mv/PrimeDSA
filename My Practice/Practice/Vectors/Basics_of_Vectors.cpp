@@ -37,6 +37,8 @@ int main() {
    vec.push_back(9);  //the elements increased in vector
    vec.push_back(10);
    vec.push_back(11);
+   vec.push_back(12);
+   vec.push_back(13);
    cout<<"After Push back the size is: "<<vec.size()<<endl;
    for (int val : vec) {
           cout<<"The added value in vector is : "<<val<<endl;
@@ -58,5 +60,8 @@ int main() {
    //6. At (particular index value)
    cout<<"The value at index 0 : "<<vec.at(0)<<endl;
    cout<<"The value at index 1 : "<<vec.at(1)<<endl;
+   cout<<endl;
+   //capacity (capacity will always be double by increasing the elements)
+   cout<<"The capacity of vector is : "<<vec.capacity()<<endl;
     return 0;
 }
