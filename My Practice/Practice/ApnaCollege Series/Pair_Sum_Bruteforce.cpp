@@ -8,16 +8,28 @@ vector<int> PairSum(vector<int> nums, int target) {
     for (int i=0;i<n;i++) {
         for (int j=i+1;j<n;j++) {
             if (nums[i]+nums[j]==target) {
-                ans.push_back(i);
-            ans.push_back(j);
+                ans.push_back(i);  //for indices
+            ans.push_back(j);    //for indices
         }
     }
 }
 return ans;
 }
 int main() {
-    vector<int>nums = {2,7,11,15};
-   int target = 26;
+    int n;
+    cout<<"Enter the size of an Array: ";
+    cin>>n;
+
+    vector<int>nums (n);
+    cout<<"Enter the sorted Array: ";
+     for (int i=0;i<n;i++) {
+        cin>>nums[i];
+     }
+
+
+    int target;
+    cout<<"Enter the target value: ";
+    cin>>target;
 
    vector<int> ans = PairSum(nums, target);
    cout << ans[0]<< " , " <<ans[1]<<endl;
