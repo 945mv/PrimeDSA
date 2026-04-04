@@ -8,7 +8,7 @@ vector<int> MajorityElement(vector<int> nums)  {
     for (int i=0;i<n;i++) {
         int frequency=0;
         for (int j=0;j<n;j++) {
-            if (j == i) {
+            if (nums[j] == nums[i]) {
                 frequency++;
             }
         }
@@ -17,6 +17,7 @@ vector<int> MajorityElement(vector<int> nums)  {
         return ans;
         }
     }
+    return ans;
 }
 int main() {
     int n;
@@ -27,6 +28,11 @@ int main() {
         cin>>nums[i];
     }
     vector<int> ans=MajorityElement(nums);
-    cout<<ans[1];
+    if(ans.size()>0) {
+        cout<<ans[0];
+    }
+    else {
+        cout<<"No Majority Element!";
+    }
     return 0;
 }
