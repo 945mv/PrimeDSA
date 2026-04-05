@@ -14,9 +14,8 @@ int DectoBin (int decNum) {
        return ans;   //binary form
 }
 int main() {
-    int n;
-    cout<<"Enter the Decimal number: ";
-    cin>>n;
-    cout<<"Hence, the Binary number is "<<DectoBin(n)<<endl;
+    for (int i=0;i<=10;i++) {
+         cout<<"Hence, the Binary number is "<<DectoBin(i)<<endl;
+    }
     return 0;
 }
