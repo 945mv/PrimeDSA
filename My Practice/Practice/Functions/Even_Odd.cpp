@@ -8,6 +8,6 @@ int EvenOdd(int n){
     }
 }
 int main() {
-    EvenOdd(21);
+    EvenOdd(78);
     return 0;
 }
