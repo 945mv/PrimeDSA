@@ -1,0 +1,10 @@
+.container {
+    display: grid;
+    S:repeat(auto-fit,minmax(200px,1fr));
+     gap:20px;
+}
+.item {
+        background-color: rgb(107, 5, 85);
+        border:5px solid yellow;
+    padding: 20px; 
+}
