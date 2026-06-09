@@ -1,33 +1,449 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-  <link rel="stylesheet" href="s.css" />
-  </head>
-  <body>
-    <div class="container">
-    <aside class="slidebar">
-    <nav>
-      <h1>Medium</h1>
-      <h5>Home</h5> 
-      <h5>Library</h5> 
-      <h5>Platform</h5> 
-      <h5>Stories</h5> 
-      <h5>Stats</h5> 
-      <h5>Following</h5> 
-    </nav>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medium Clone</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,700;1,400&family=Playfair+Display:ital,wght@0,700;1,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- RESET & GLOBAL STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: #242424;
+            background-color: #ffffff;
+            display: grid;
+            grid-template-columns: 240px 1fr 360px;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- SIDEBAR LEFT --- */
+        .sidebar-left {
+            border-right: 1px solid #f2f2f2;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            position: fixed;
+            width: 240px;
+            height: 100vh;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 15px;
+            color: #6b6b6b;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: #242424;
+            font-weight: 600;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+        .nav-item.active .nav-icon {
+            opacity: 1;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: #f2f2f2;
+            margin: 10px 0;
+        }
+
+        .find-writers {
+            font-size: 14px;
+            color: #6b6b6b;
+            line-height: 1.4;
+        }
+
+        .find-writers a {
+            color: #1a8917;
+            display: block;
+            margin-top: 8px;
+        }
+
+        /* --- MAIN FEED (MIDDLE) --- */
+        .main-content {
+            grid-column: 2;
+            padding: 24px 64px;
+            margin-left: 240px; /* Offset for fixed sidebar */
+        }
+
+        /* Promo Banner */
+        .promo-banner {
+            background-color: #fafafa;
+            border-bottom: 1px solid #f2f2f2;
+            padding: 12px;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 32px;
+            border-radius: 4px;
+        }
+        .promo-banner a {
+            text-decoration: underline;
+            font-weight: 600;
+        }
+
+        /* Feed Tabs */
+        .feed-tabs {
+            display: flex;
+            gap: 24px;
+            border-bottom: 1px solid #f2f2f2;
+            margin-bottom: 32px;
+        }
+
+        .tab {
+            padding-bottom: 12px;
+            font-size: 14px;
+            color: #6b6b6b;
+            cursor: pointer;
+        }
+
+        .tab.active {
+            color: #242424;
+            border-bottom: 1px solid #242424;
+            font-weight: 500;
+        }
+
+        /* Article Card Layout */
+        .article-card {
+            display: flex;
+            justify-content: space-between;
+            gap: 48px;
+            padding-bottom: 32px;
+            margin-bottom: 32px;
+            border-bottom: 1px solid #f2f2f2;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #242424;
+            margin-bottom: 12px;
+        }
+
+        .author-img {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #ddd;
+        }
+
+        .publication {
+            font-weight: 600;
+        }
+
+        .article-title {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1.3;
+            color: #242424;
+            margin-bottom: 8px;
+        }
+
+        .article-excerpt {
+            font-family: 'Lora', Georgia, serif;
+            font-size: 15px;
+            color: #6b6b6b;
+            line-height: 1.4;
+            margin-bottom: 24px;
+        }
+
+        .article-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #6b6b6b;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .star-icon {
+            color: #ffb000;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 16px;
+            opacity: 0.6;
+        }
+
+        .article-image {
+            width: 160px;
+            height: 112px;
+            object-fit: cover;
+            border-radius: 2px;
+            background-color: #f2f2f2;
+            flex-shrink: 0;
+        }
+
+        /* --- SIDEBAR RIGHT --- */
+        .sidebar-right {
+            grid-column: 3;
+            border-left: 1px solid #f2f2f2;
+            padding: 40px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #242424;
+            margin-bottom: 16px;
+        }
+
+        /* Staff Picks list */
+        .staff-picks-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .pick-item-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .pick-item-title {
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.3;
+            color: #242424;
+        }
+
+        /* Recommended Topics Tags */
+        .topics-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .topic-tag {
+            background-color: #f2f2f2;
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 13px;
+            color: #242424;
+            transition: background-color 0.2s;
+        }
+
+        .topic-tag:hover {
+            background-color: #e6e6e6;
+        }
+
+        .see-more-link {
+            font-size: 14px;
+            color: #1a8917;
+            display: inline-block;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar-left">
+        <div class="logo">Medium</div>
+        <nav class="nav-menu">
+            <div class="nav-item active">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4 10h5v5H4v-5zm0-6h5v5H4V4zm6 6h10v5H10v-5zm0-6h10v5H10V4z"/></svg>
+                Home
+            </div>
+            <div class="nav-item">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5a2.5 2.5 0 0 0-2.5 2.5v14z"/></svg>
+                Library
+            </div>
+            <div class="nav-item">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                Stories
+            </div>
+            <div class="nav-item">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+                Stats
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="nav-item">Following</div>
+            <div class="find-writers">
+                Find writers and publications to follow.
+                <a href="#">See suggestions</a>
+            </div>
+        </nav>
     </aside>
-    <main class="feed">
-      <article class="post">
-        <div class="post-content">
-          <span class="author"> Leo Gaudin . Mar 2</span>
-          <h2>Claude Code is Great</h2>
-          <p>You Just Need to Learn How to Use It</p>
+
+    <main class="main-content">
+        <div class="promo-banner">
+            ✨ Get unlimited access to the best of Medium for less than $1/week. <a href="#">Become a member</a>
         </div>
-      </article>
+
+        <div class="feed-tabs">
+            <div class="tab active">For you</div>
+            <div class="tab">Featured</div>
+        </div>
+
+        <article class="article-card">
+            <div class="article-body">
+                <div class="article-meta">
+                    <div class="author-img"></div>
+                    <span>Leo Godin</span>
+                    <span style="color:#6b6b6b;">· Mar 2</span>
+                </div>
+                <h2 class="article-title">Claude Code is Great</h2>
+                <p class="article-excerpt">You Just Need to Learn How to Use It</p>
+                <div class="article-footer">
+                    <div class="footer-left">
+                        <span class="star-icon">★</span>
+                        <span>5.2K</span>
+                        <span>💬 150</span>
+                    </div>
+                    <div class="footer-right">
+                        <span>👎</span> <span>🔖</span> <span>···</span>
+                    </div>
+                </div>
+            </div>
+            <div class="article-image" style="background: radial-gradient(circle, #1a2a6c, #b21f1f);"></div>
+        </article>
+
+        <article class="article-card">
+            <div class="article-body">
+                <div class="article-meta">
+                    <div class="author-img" style="background-color: #ff9e80;"></div>
+                    <span class="publication">In Data Science Collective</span> 
+                    <span>by Marina Wyss</span>
+                    <span style="color:#6b6b6b;">· Feb 23</span>
+                </div>
+                <h2 class="article-title">Should You Still Learn to Code in 2026?</h2>
+                <p class="article-excerpt">The answer isn't as obvious as I used to believe.</p>
+                <div class="article-footer">
+                    <div class="footer-left">
+                        <span class="star-icon">★</span>
+                        <span>3.6K</span>
+                        <span>💬 178</span>
+                    </div>
+                    <div class="footer-right">
+                        <span>👎</span> <span>🔖</span> <span>···</span>
+                    </div>
+                </div>
+            </div>
+            <div class="article-image" style="background: #23272A;"></div>
+        </article>
+
+        <article class="article-card">
+            <div class="article-body">
+                <div class="article-meta">
+                    <div class="author-img" style="background-color: #80deea;"></div>
+                    <span class="publication">In Books Are Our Superpower</span> 
+                    <span>by Desiree Peralta</span>
+                    <span style="color:#6b6b6b;">· Mar 9</span>
+                </div>
+                <h2 class="article-title">“Women Are Basically Reading Porn”</h2>
+                <p class="article-excerpt">And other misogynistic comments I receive when I say I'm a fiction reader.</p>
+                <div class="article-footer">
+                    <div class="footer-left">
+                        <span class="star-icon">★</span>
+                        <span>6K</span>
+                        <span>💬 305</span>
+                    </div>
+                    <div class="footer-right">
+                        <span>👎</span> <span>🔖</span> <span>···</span>
+                    </div>
+                </div>
+            </div>
+            <div class="article-image" style="background: #eed8a1;"></div>
+        </article>
     </main>
-  </body>
+
+    <aside class="sidebar-right">
+        <div>
+            <h3 class="section-title">Staff Picks</h3>
+            <div class="staff-picks-list">
+                <div>
+                    <div class="pick-item-meta">
+                        <div class="author-img" style="width:16px; height:16px;"></div>
+                        <span>devin bambrick</span>
+                    </div>
+                    <h4 class="pick-item-title">Gatori Fishing in America</h4>
+                </div>
+                <div>
+                    <div class="pick-item-meta">
+                        <div class="author-img" style="width:16px; height:16px;"></div>
+                        <span>John DeVore</span>
+                    </div>
+                    <h4 class="pick-item-title">Cigarettes are bad. I miss them.</h4>
+                </div>
+                <div>
+                    <div class="pick-item-meta">
+                        <div class="author-img" style="width:16px; height:16px;"></div>
+                        <span class="publication">In Bootcamp</span> <span>by Divya Sabade</span>
+                    </div>
+                    <h4 class="pick-item-title">I Sat in Engineering Meetings for Two Years Without Understanding What a Branch Was</h4>
+                </div>
+            </div>
+            <a href="#" class="see-more-link">See the full list</a>
+        </div>
+
+        <div>
+            <h3 class="section-title">Recommended topics</h3>
+            <div class="topics-grid">
+                <a href="#" class="topic-tag">Technology</a>
+                <a href="#" class="topic-tag">Relationships</a>
+                <a href="#" class="topic-tag">Self Improvement</a>
+                <a href="#" class="topic-tag">Writing</a>
+                <a href="#" class="topic-tag">Machine Learning</a>
+                <a href="#" class="topic-tag">Politics</a>
+                <a href="#" class="topic-tag">Cryptocurrency</a>
+            </div>
+        </div>
+    </aside>
+
+</body>
 </html>
