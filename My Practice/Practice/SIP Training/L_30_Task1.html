@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.1">
+    <title>CRUD Todo App</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #f4f6f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .todo-container { background: #fff; width: 100%; max-width: 450px; padding: 30px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.05); }
+        h2 { margin-bottom: 20px; color: #333; text-align: center; }
+        .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        input[type="text"] { flex: 1; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; outline: none; transition: border-color 0.2s; }
+        input[type="text"]:focus { border-color: #4a90e2; }
+        button { padding: 12px 20px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+        .add-btn { background: #4a90e2; color: white; }
+        .add-btn:hover { background: #357abd; }
+        ul { list-style: none; }
+        li { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #fafafa; border: 1px solid #eee; border-radius: 8px; margin-bottom: 10px; transition: transform 0.2s; }
+        li:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+        .task-text { flex: 1; font-size: 16px; color: #444; word-break: break-all; margin-right: 10px; }
+        .edit-input { flex: 1; padding: 8px; border: 2px solid #4a90e2; border-radius: 6px; font-size: 16px; margin-right: 10px; outline: none; }
+        .actions { display: flex; gap: 6px; }
+        .edit-btn { background: #ffb300; color: white; padding: 6px 12px; font-size: 14px; }
+        .edit-btn:hover { background: #e6a100; }
+        .delete-btn { background: #ff5252; color: white; padding: 6px 12px; font-size: 14px; }
+        .delete-btn:hover { background: #e04444; }
+        .save-btn { background: #2ecc71; color: white; padding: 6px 12px; font-size: 14px; }
+        .save-btn:hover { background: #27ae60; }
+    </style>
+</head>
+<body>
+
+<div class="todo-container">
+    <h2>My Todo List</h2>
+    <div class="input-group">
+        <input type="text" id="todo-input" placeholder="Add a new task...">
+        <button class="add-btn" onclick="createTodo()">Add</button>
+    </div>
+    <ul id="todo-list"></ul>
+</div>
+
+<script>
+    // State management (In-Memory Array acting as DB)
+    let todos = [
+        { id: 1, text: "Learn System Architecture" },
+        { id: 2, text: "Review API guidelines" }
+    ];
+
+    const todoListElement = document.getElementById('todo-list');
+    const todoInputElement = document.getElementById('todo-input');
+
+    // READ: Render todos to UI
+    function renderTodos() {
+        todoListElement.innerHTML = '';
+        todos.forEach(todo => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <span class="task-text" id="text-${todo.id}">${todo.text}</span>
+                <div class="actions" id="actions-${todo.id}">
+                    <button class="edit-btn" onclick="enableEdit(${todo.id})">Edit</button>
+                    <button class="delete-btn" onclick="deleteTodo(${todo.id})">Delete</button>
+                </div>
+            `;
+            todoListElement.appendChild(li);
+        });
+    }
+
+    // CREATE: Add new todo
+    function createTodo() {
+        const text = todoInputElement.value.trim();
+        if (!text) return alert("Task cannot be empty!");
+
+        const newTodo = {
+            id: Date.now(), // simple unique timestamp ID
+            text: text
+        };
+        
+        todos.push(newTodo);
+        todoInputElement.value = '';
+        renderTodos();
+    }
+
+    // UPDATE (Part 1): Replace text with input field
+    function enableEdit(id) {
+        const todo = todos.find(t => t.id === id);
+        const textSpan = document.getElementById(`text-${id}`);
+        const actionsDiv = document.getElementById(`actions-${id}`);
+
+        textSpan.innerHTML = `<input type="text" class="edit-input" id="input-${id}" value="${todo.text}">`;
+        actionsDiv.innerHTML = `
+            <button class="save-btn" onclick="saveTodo(${id})">Save</button>
+            <button class="delete-btn" onclick="renderTodos()">Cancel</button>
+        `;
+        document.getElementById(`input-${id}`).focus();
+    }
+
+    // UPDATE (Part 2): Save updated text to array
+    function saveTodo(id) {
+        const inputVal = document.getElementById(`input-${id}`).value.trim();
+        if (!inputVal) return alert("Task text cannot be empty!");
+
+        todos = todos.map(todo => todo.id === id ? { ...todo, text: inputVal } : todo);
+        renderTodos();
+    }
+
+    // DELETE: Remove todo item
+    function deleteTodo(id) {
+        todos = todos.filter(todo => todo.id !== id);
+        renderTodos();
+    }
+
+    // Setup input key listener (Enter key to submit)
+    todoInputElement.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") createTodo();
+    });
+
+    // Initial load
+    renderTodos();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: linear-gradient(135deg, #74b9ff, #a29bfe); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .weather-container { background: rgba(255, 255, 255, 0.9); width: 100%; max-width: 400px; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; backdrop-filter: blur(5px); }
+        h2 { margin-bottom: 20px; color: #2d3436; }
+        .search-box { display: flex; gap: 8px; margin-bottom: 25px; }
+        input { flex: 1; padding: 12px; border: 1px solid #dfe6e9; border-radius: 8px; font-size: 16px; outline: none; }
+        button { background: #6c5ce7; color: white; border: none; padding: 12px 18px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
+        button:hover { background: #5b4cc4; }
+        .loader { display: none; margin: 20px auto; border: 4px solid #f3f3f3; border-top: 4px solid #6c5ce7; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .weather-card { display: none; margin-top: 10px; }
+        .city { font-size: 24px; font-weight: bold; color: #2d3436; margin-bottom: 5px; }
+        .temp { font-size: 48px; font-weight: 300; color: #2d3436; margin: 10px 0; }
+        .desc { font-size: 18px; color: #636e72; text-transform: capitalize; font-weight: 500; }
+        .details { display: flex; justify-content: space-around; margin-top: 25px; padding-top: 20px; border-top: 1px solid #eee; }
+        .detail-item span { display: block; font-size: 14px; color: #b2bec3; }
+        .detail-item strong { font-size: 16px; color: #2d3436; }
+        .error { display: none; color: #d63031; background: #fab1a0; padding: 10px; border-radius: 8px; margin-top: 15px; font-weight: 500; }
+    </style>
+</head>
+<body>
+
+<div class="weather-container">
+    <h2>Weather Monitor</h2>
+    <div class="search-box">
+        <input type="text" id="city-input" placeholder="Enter city name (e.g., Delhi)..." value="Indore">
+        <button onclick="fetchWeather()">Search</button>
+    </div>
+
+    <div class="loader" id="loader"></div>
+    <div class="error" id="error-msg">City not found. Try again.</div>
+
+    <div class="weather-card" id="weather-card">
+        <div class="city" id="ui-city">City Name</div>
+        <div class="temp" id="ui-temp">--°C</div>
+        <div class="desc" id="ui-desc">Condition</div>
+        <div class="details">
+            <div class="detail-item">
+                <span>Humidity</span>
+                <strong id="ui-humidity">--%</strong>
+            </div>
+            <div class="detail-item">
+                <span>Wind Speed</span>
+                <strong id="ui-wind">-- km/h</strong>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function fetchWeather() {
+        const cityInput = document.getElementById('city-input').value.trim();
+        const loader = document.getElementById('loader');
+        const card = document.getElementById('weather-card');
+        const errorMsg = document.getElementById('error-msg');
+
+        if (!cityInput) return alert("Please enter a city name");
+
+        // UI State: Loading
+        loader.style.display = 'block';
+        card.style.display = 'none';
+        errorMsg.style.display = 'none';
+
+        try {
+            // Fetching from a free JSON endpoint wrapper around wttr.in
+            const response = await fetch(`https://wttr.in/${encodeURIComponent(cityInput)}?format=j1`);
+            
+            if (!response.ok) throw new Error("City data not available");
+
+            const data = await response.json();
+            
+            // Extracting relevant metrics from JSON
+            const currentCondition = data.current_condition[0];
+            const areaInfo = data.nearest_area[0];
+            
+            const cityName = areaInfo.areaName[0].value;
+            const countryName = areaInfo.country[0].value;
+            const tempC = currentCondition.temp_C;
+            const weatherDesc = currentCondition.weatherDesc[0].value;
+            const humidity = currentCondition.humidity;
+            const windSpeed = currentCondition.windspeedKmh;
+
+            // Updating UI Components
+            document.getElementById('ui-city').textContent = `${cityName}, ${countryName}`;
+            document.getElementById('ui-temp').textContent = `${tempC}°C`;
+            document.getElementById('ui-desc').textContent = weatherDesc;
+            document.getElementById('ui-humidity').textContent = `${humidity}%`;
+            document.getElementById('ui-wind').textContent = `${windSpeed} km/h`;
+
+            // UI State: Success Display
+            loader.style.display = 'none';
+            card.style.display = 'block';
+
+        } catch (error) {
+            console.error(error);
+            loader.style.display = 'none';
+            errorMsg.style.display = 'block';
+        }
+    }
+
+    // Trigger initial search for default value
+    window.onload = fetchWeather;
+    
+    // Add Enter key event listener
+    document.getElementById('city-input').addEventListener("keypress", (e) => {
+        if (e.key === "Enter") fetchWeather();
+    });
+</script>
+
+</body>
+</html>
